@@ -15,17 +15,17 @@ class Program {
 		return (result);
 	}
 
-    static int  isPrime(int num) {
+    static boolean  isPrime(int num) {
         int i;
 
         i = 2;
         while ((i * i) <= num) {
             if (num % i == 0) {
-                return (1);
+                return (false);
             }
             i++;
         }
-        return (0);
+        return (true);
     }
     public static void main(String[] args) {
         int num;
@@ -43,11 +43,12 @@ class Program {
 			    return ;
 			}
 			sum = sumDigitsNumber(num);
-			if (isPrime(sum) == 0) {
+			if (isPrime(sum) == true) {
 				count++;
 			}
         }
-		System.out.print("Count of coffe-request - ");
-		System.out.println(count);
+		// System.out.print("Count of coffe-request - ");
+		// System.out.println(count);
+		System.out.printf("Count of coffe-request - %d\n", count);
     }
 }
