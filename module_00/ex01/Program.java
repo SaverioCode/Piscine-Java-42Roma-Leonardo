@@ -6,8 +6,8 @@ class Program {
         int num;
         int i;
 
-        System.out.print("Insert a number: ");
         Scanner getNum = new Scanner(System.in);
+        System.out.print("Insert a number: ");
         num = getNum.nextInt();
         if (num < 2) {
             System.err.println("Illegal argument");
@@ -20,7 +20,7 @@ class Program {
                 System.out.println(i - 1);
                 System.exit(0);
             }
-            i++;
+			i++;
         }
         System.out.print("true ");
         System.out.println(i - 2);
