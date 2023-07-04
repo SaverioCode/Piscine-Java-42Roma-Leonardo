@@ -40,6 +40,7 @@ class Program {
 			num = getNum.nextInt();
 			if (num <= 2) {
 			    System.err.println("Input has to be a natural number > 1");
+				getNum.close();
 			    return ;
 			}
 			sum = sumDigitsNumber(num);
@@ -47,8 +48,7 @@ class Program {
 				count++;
 			}
         }
-		// System.out.print("Count of coffe-request - ");
-		// System.out.println(count);
+		getNum.close();
 		System.out.printf("Count of coffe-request - %d\n", count);
     }
 }
