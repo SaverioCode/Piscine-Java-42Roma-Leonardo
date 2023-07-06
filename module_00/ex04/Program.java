@@ -2,57 +2,51 @@
 import java.util.Scanner;
 
 class Program {
-	static int[][] insertArray(int[][] top10, int index, int[] arr) {
+	static int[][] insertArray(int[][] top10, int index, int c, int value) {
 		int		i;
-		int[]	tmp1;
-		int[]	tmp2;
+		int[][]	newTop10;
+		int[]	arr;
 
-		tmp1 = top10[index];
-		top10[index] = arr;
-		i = index + 1;
-		while (i < 9) {
-			tmp2 = top10[i];
-			top10[i] = tmp1;
+		newTop10 = new int[10][2];
+		arr = new int[2];
+		arr[0] = c;
+		arr[1] = value;
+
+		while (i < index) {
+			newTop10[i] = top10[i];
 			i++;
 		}
-		return (old);
-	}
-
-	static boolean	isEligible(int[][] top10, int c, int value) {
-		byte	i;
-
-		i = 0;
+		newTop10[i] = arr;
+		i++;
 		while (i < 10) {
-			if (value == top10[i][1] && c > top[i][0]) {
-				return (true);
-			}
-			else if (value > top10[i][1]) {
-				return (true);
-			}
+			newTop10[i] = top10[i - 1];
 			i++;
 		}
+		return (newTop10);
 	}
 
-	// static int[][] initTop10(int[][] top10) {
-	// 	byte	i;
+	static void	printChart(int[][] top10) {
 
-	// 	i = 0;
-	// 	while (i < 10) {
-	// 		top10[i][0] = 0;
-	// 		top10[i][1] = 0;
-	// 		i++;
-	// 	}
-	// 	return (top10);
-	// }
+	}
 
 	static int[][] getTop10(int[] unicode) {
 		int		i;
+		int		j;
 		int[][]	top10 = new int[10][2];
 		
 		i = 0;
 		while (i < 65536) {
-			if (isEligible(top10, i, unicode[i]) == true) {
-				top10 = updateTop10(top10, unicode[i]);
+			j = 0;
+			while (j < 10) {
+				if (value == top10[i][1] && c > top[i][0]) {
+					top10 = insertArray(top10, i unicode[i]);
+					return (true);
+				}
+				else if (value > top10[i][1]) {
+					top10 = insertArray(top10, i unicode[i]);
+					return (true);
+				}
+				j++;
 			}
 			i++;
 		}
