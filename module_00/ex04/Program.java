@@ -36,17 +36,19 @@ class Program {
 		
 		i = 0;
 		while (i < 65536) {
-			j = 0;
-			while (j < 10) {
-				if (value == top10[i][1] && c > top[i][0]) {
-					top10 = insertArray(top10, i unicode[i]);
-					return (true);
+			if (unicode[i] > 0) {
+				j = 0;
+				while (j < 10) {
+					if (value == top10[i][1] && c > top[i][0]) {
+						top10 = insertArray(top10, i unicode[i]);
+						return (true);
+					}
+					else if (value > top10[i][1]) {
+						top10 = insertArray(top10, i unicode[i]);
+						return (true);
+					}
+					j++;
 				}
-				else if (value > top10[i][1]) {
-					top10 = insertArray(top10, i unicode[i]);
-					return (true);
-				}
-				j++;
 			}
 			i++;
 		}
