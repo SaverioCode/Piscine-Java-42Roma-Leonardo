@@ -26,14 +26,42 @@ class Program {
 	}
 
 	static void	printChart(int[][] top10) {
-		int	unit;
+		int		unit;
+		int		i;
+		byte	j;
 
-		if (top10[0])
-		unit = 1;
-		if (top10[9][1] > max) {
-			unit = top10[9][1] / 10;
+		if (top10[0][1] < 1) {
+			return ;
 		}
-		
+		unit = 1;
+		if (top10[0][1] > max) {
+			unit = top10[0][1] / 10;
+		}
+		i = top10[0][1] + unit;
+		while (i >= 0) {
+			j = 0;
+			while (j < 10) {
+				if (top10[j][1] > 0) {
+					if (top10[j][1] / 10 >= 1) {
+						System.out.print("#");
+					}
+					else if (i - unit <= top10[j][1]) {
+						System.out.print(top10[j][1]);
+					}
+				}
+				j++;
+			}
+			System.out.println();
+			i -= unit;
+		}
+		i = 0;
+		while (i < 10) {
+			if (top10[i][1] > 0) {
+				System.out.print((char) top10[i][0]);
+			}
+			i++;
+		}
+		System.out.println();
 	}
 
 	static int[][] getTop10(int[] unicode) {
@@ -93,6 +121,6 @@ class Program {
 		arrOfChar = input.toCharArray();
 		unicode = updateUnicode(arrOfChar, len);
 		top10 = getTop10(unicode);
-		/// print chart ///
+		printChart(top10);
 	}
 }
