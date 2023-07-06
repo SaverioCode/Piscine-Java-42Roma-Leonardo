@@ -18,45 +18,41 @@ class Program {
 		return (old);
 	}
 
-	static int[][] updateTop10(int[][] top10, int[] arr) {
-		byte	i;
-
-		i = 9;
-		while (i >= 0) {
-			if (top10[i][1] <= arr[1]) {
-				top10 = insertArray(top10, i, arr);
-			}
-			i--;
-		}
-		return (top10);
-	}
-
-	static int[][] initTop10(int[][] top10) {
+	static boolean	isEligible(int[][] top10, int c, int value) {
 		byte	i;
 
 		i = 0;
 		while (i < 10) {
-			top10[i][0] = 0;
-			top10[i][1] = 0;
+			if (value == top10[i][1] && c > top[i][0]) {
+				return (true);
+			}
+			else if (value > top10[i][1]) {
+				return (true);
+			}
 			i++;
 		}
-		return (top10);
 	}
 
+	// static int[][] initTop10(int[][] top10) {
+	// 	byte	i;
+
+	// 	i = 0;
+	// 	while (i < 10) {
+	// 		top10[i][0] = 0;
+	// 		top10[i][1] = 0;
+	// 		i++;
+	// 	}
+	// 	return (top10);
+	// }
+
 	static int[][] getTop10(int[] unicode) {
-		int		len;
-		int		lowest;
 		int		i;
 		int[][]	top10 = new int[10][2];
 		
-		lowest = 1;
-		len = 0;
 		i = 0;
-		top10 = initTop10(top10);
 		while (i < 65536) {
-			if (unicode[i] >= lowest) {
+			if (isEligible(top10, i, unicode[i]) == true) {
 				top10 = updateTop10(top10, unicode[i]);
-				lowest = updateLowest();
 			}
 			i++;
 		}
