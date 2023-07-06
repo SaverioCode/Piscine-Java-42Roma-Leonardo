@@ -25,6 +25,26 @@ class Program {
 		return (newTop10);
 	}
 
+	static void	printLetters(int[][] top10) {
+		byte	j;
+
+		j = 0;
+		while (j < 10) {
+			if (top10[j][1] > 0) {
+				System.out.printf(" %c ", (char)top10[j][0]);
+			}
+			j++;
+		}
+		System.out.println();
+	}
+
+	static float	getUnit(int maxValue) {
+		if (maxValue > 10) {
+			return ((float) maxValue / 10);
+		}
+		return (1);
+	}
+
 	static void	printChart(int[][] top10) {
 		float	unit;
 		float	i;
@@ -33,37 +53,28 @@ class Program {
 		if (top10[0][1] < 1) {
 			return ;
 		}
-		unit = 1;
-		if (top10[0][1] > 10) {
-			unit = top10[0][1] / 10;
-		}
+		unit = getUnit(top10[0][1]);
 		i = top10[0][1] + unit;
-		while (i >= 0) {
+		while (i > 0) {
 			j = 0;
 			while (j < 10) {
 				if (top10[j][1] > 0) {
-					if (top10[j][1] / i >= 1) {
-						System.out.print("#");
+					if ((float)top10[j][1] / i >= 1) {
+						System.out.print(" # ");
 					}
 					else if (i - unit <= top10[j][1] && i > top10[j][1]) {
-						System.out.print(top10[j][1]);
+						if (top10[j][1] < 10) {
+							System.out.print(" ");
+						}
+						System.out.printf("%d ", top10[j][1]);
 					}
-					System.out.print(" ");
 				}
 				j++;
 			}
 			System.out.println();
 			i -= unit;
 		}
-		j = 0;
-		while (j < 10) {
-			if (top10[j][1] > 0) {
-				System.out.print((char) top10[j][0]);
-				System.out.print(" ");
-			}
-			j++;
-		}
-		System.out.println();
+		printLetters(top10);
 	}
 
 	static int[][] getTop10(int[] unicode) {
@@ -113,8 +124,9 @@ class Program {
 		int		len;
 		int[]	unicode;
 		int[][]	top10;
+		Scanner getInput;
 	
-		Scanner getInput = new Scanner(System.in);
+		getInput = new Scanner(System.in);
 		input = getInput.nextLine();
 		getInput.close();
 		len = input.length();
