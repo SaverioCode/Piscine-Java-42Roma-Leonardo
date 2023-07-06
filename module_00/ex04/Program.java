@@ -26,7 +26,14 @@ class Program {
 	}
 
 	static void	printChart(int[][] top10) {
+		int	unit;
 
+		if (top10[0])
+		unit = 1;
+		if (top10[9][1] > max) {
+			unit = top10[9][1] / 10;
+		}
+		
 	}
 
 	static int[][] getTop10(int[] unicode) {
@@ -39,11 +46,11 @@ class Program {
 			if (unicode[i] > 0) {
 				j = 0;
 				while (j < 10) {
-					if (value == top10[i][1] && c > top[i][0]) {
-						top10 = insertArray(top10, i unicode[i]);
+					if (unicode[i] == top10[j][1] && i < top[j][0]) {
+						top10 = insertArray(top10, j, i unicode[i]);
 						return (true);
 					}
-					else if (value > top10[i][1]) {
+					else if (unicode[i] > top10[j][1]) {
 						top10 = insertArray(top10, i unicode[i]);
 						return (true);
 					}
