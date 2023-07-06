@@ -26,8 +26,8 @@ class Program {
 	}
 
 	static void	printChart(int[][] top10) {
-		int		unit;
-		int		i;
+		float	unit;
+		float	i;
 		byte	j;
 
 		if (top10[0][1] < 1) {
@@ -42,24 +42,26 @@ class Program {
 			j = 0;
 			while (j < 10) {
 				if (top10[j][1] > 0) {
-					if (top10[j][1] / 10 >= 1) {
+					if (top10[j][1] / i >= 1) {
 						System.out.print("#");
 					}
-					else if (i - unit <= top10[j][1]) {
+					else if (i - unit <= top10[j][1] && i > top10[j][1]) {
 						System.out.print(top10[j][1]);
 					}
+					System.out.print(" ");
 				}
 				j++;
 			}
 			System.out.println();
 			i -= unit;
 		}
-		i = 0;
-		while (i < 10) {
-			if (top10[i][1] > 0) {
-				System.out.print((char) top10[i][0]);
+		j = 0;
+		while (j < 10) {
+			if (top10[j][1] > 0) {
+				System.out.print((char) top10[j][0]);
+				System.out.print(" ");
 			}
-			i++;
+			j++;
 		}
 		System.out.println();
 	}
@@ -75,11 +77,9 @@ class Program {
 			if (unicode[i] > 0) {
 				j = 0;
 				while (j < 10) {
-					if (unicode[i] == top10[j][1] && i < top10[j][0]) {
+					if (unicode[i] > top10[j][1]) {
 						top10 = insertArray(top10, j, i, unicode[i]);
-					}
-					else if (unicode[i] > top10[j][1]) {
-						top10 = insertArray(top10, j, i, unicode[i]);
+						break ;
 					}
 					j++;
 				}
