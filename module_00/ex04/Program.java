@@ -11,7 +11,7 @@ class Program {
 		arr = new int[2];
 		arr[0] = c;
 		arr[1] = value;
-
+		i = 0;
 		while (i < index) {
 			newTop10[i] = top10[i];
 			i++;
@@ -34,7 +34,7 @@ class Program {
 			return ;
 		}
 		unit = 1;
-		if (top10[0][1] > max) {
+		if (top10[0][1] > 10) {
 			unit = top10[0][1] / 10;
 		}
 		i = top10[0][1] + unit;
@@ -67,26 +67,26 @@ class Program {
 	static int[][] getTop10(int[] unicode) {
 		int		i;
 		int		j;
-		int[][]	top10 = new int[10][2];
+		int[][]	top10; 
 		
+		top10 = new int[10][2];
 		i = 0;
 		while (i < 65536) {
 			if (unicode[i] > 0) {
 				j = 0;
 				while (j < 10) {
-					if (unicode[i] == top10[j][1] && i < top[j][0]) {
-						top10 = insertArray(top10, j, i unicode[i]);
-						return (true);
+					if (unicode[i] == top10[j][1] && i < top10[j][0]) {
+						top10 = insertArray(top10, j, i, unicode[i]);
 					}
 					else if (unicode[i] > top10[j][1]) {
-						top10 = insertArray(top10, i unicode[i]);
-						return (true);
+						top10 = insertArray(top10, j, i, unicode[i]);
 					}
 					j++;
 				}
 			}
 			i++;
 		}
+		return (top10);
 	}
 
 	static int[] updateUnicode(char[] arrOfChar, int len) {
