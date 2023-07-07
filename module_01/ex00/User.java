@@ -1,18 +1,18 @@
 
-import	java.util.UUID;
-
 public class User {
-	private UUID	identifier;
-	private String	name;
-	private Int		balance;
+	private static int	num = 0;
+	private int			identifier;
+	private String		name;
+	private int			balance;
 
-	public User User(String name) {
+	public User(String name) {
 		this.name = name;
-		this.identifier = UUID.randomUUID();
-		this.balance = 500;
+		this.identifier = this.num + 1;
+		this.num = this.identifier;
+		this.balance = 0;
 	}
 
-	public UUID getId() {
+	public int getID() {
 		return (this.identifier);
 	}
 
