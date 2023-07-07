@@ -1,14 +1,12 @@
 
-public class User {
-	private static int	num = 0;
+public class	User {
 	private int			identifier;
 	private String		name;
 	private int			balance;
 
 	public User(String name) {
+		this.identifier = UserIdsGenerator.getInstance().generateId();
 		this.name = name;
-		this.identifier = this.num + 1;
-		this.num = this.identifier;
 		this.balance = 0;
 	}
 
@@ -22,10 +20,6 @@ public class User {
 
 	public int getBalance() {
 		return (this.balance);
-	}
-
-	public void setID(int identifier) {
-		this.identifier = identifier;
 	}
 
 	public void	setName(String name) {
