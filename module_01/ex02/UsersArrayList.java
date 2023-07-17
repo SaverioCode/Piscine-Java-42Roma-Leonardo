@@ -1,16 +1,13 @@
 
 public class	UsersArrayList implements UserList {
-	private static UseArrayList	instance;
+	private static UsersArrayList	instance;
+	static User[]					userList;
 
-	private	UserArrayList() {
-		User[]	userList;
+	static public	UsersArrayList	getInstance() {
 
-		userList = new User[10];
-	}
-
-	public	getInstance() {
 		if (instance == null) {
-			instance = new UserList();
+			instance = new UsersArrayList();
+			userList = new User[10];
 		}
 		return (instance);
 	}
@@ -32,9 +29,9 @@ public class	UsersArrayList implements UserList {
 		int	i;
 		int	len;
 
-		len = userList.length;
+		len = this.userList.length;
 		i = 0;
-		while ( i < length) {
+		while ( i < len) {
 			if (userList[i] == null) {
 				userList[i] = user;
 				return ;
@@ -55,11 +52,13 @@ public class	UsersArrayList implements UserList {
 			}
 		}
 		/// thrown exception ///
+		return (null);
 	}
 
 	public User	getUserByIndex(int index) {
 		if (userList.length <= index) {
 			/// thrown exception ///
+			return (null);
 		}
 		return (userList[index]);
 	}

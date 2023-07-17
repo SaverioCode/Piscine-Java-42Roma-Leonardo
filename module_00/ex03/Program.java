@@ -44,14 +44,13 @@ class Program {
 		return (update);
 	}
 
-	static int	getGrades() {
+	static int	getGrades(Scanner getGrade) {
 		int		lower;
 		int		newGrade;
 		byte	i;
-
-		Scanner getGrade = new Scanner(System.in);
 		lower = 10;
 		i = 0;
+
 		while (i < 5) {
 			newGrade = getGrade.nextInt();
 			if (newGrade < 1 || newGrade > 9) {
@@ -64,7 +63,6 @@ class Program {
 			}
 			i++;
 		}
-		getGrade.close();
 		return (lower);
 	}
 
@@ -72,7 +70,7 @@ class Program {
 		byte	week;
 		int		lowerGrade;
 		long	results;
-		String input;
+		String	input;
 		
 		Scanner getInput = new Scanner(System.in);
 		results = 0;
@@ -84,13 +82,15 @@ class Program {
 				break ;
 			}
 			if (input.equals("Week " + week) == false) {
+				System.out.printf("|%s|\n", input);
 				System.err.println("IllegalArgument");
 				getInput.close();
 				System.exit(-1);
 			}
-			lowerGrade = getGrades();
+			lowerGrade = getGrades(getInput);
 			results = updateResults(lowerGrade, results);
 			week++;
+			input = getInput.nextLine();
 		}
 		getInput.close();
 		week--;
