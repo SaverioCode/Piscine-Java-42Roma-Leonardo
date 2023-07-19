@@ -4,10 +4,6 @@ public class	UsersArrayList implements UserList {
 	static User[]					userList;
 
 	static public	UsersArrayList	getInstance() {
-<<<<<<< HEAD
-=======
-
->>>>>>> b17417adff897e62105aaf9d18afa809d7465868
 		if (instance == null) {
 			instance = new UsersArrayList();
 			userList = new User[10];
