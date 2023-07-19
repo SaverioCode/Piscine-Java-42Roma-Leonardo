@@ -4,6 +4,10 @@ public class	UsersArrayList implements UserList {
 	static User[]					userList;
 
 	static public	UsersArrayList	getInstance() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> b17417adff897e62105aaf9d18afa809d7465868
 		if (instance == null) {
 			instance = new UsersArrayList();
 			userList = new User[10];
@@ -50,12 +54,23 @@ public class	UsersArrayList implements UserList {
 				return (userList[i]);
 			}
 		}
+<<<<<<< HEAD
 		throw new UserNotFoundExeption("User not found\n");
 	}
 
 	public User	getUserByIndex(int index) {
 		if (index < 0 || userList.length <= index) {
 			throw new UserNotFoundExeption("User not found\n");
+=======
+		/// thrown exception ///
+		return (null);
+	}
+
+	public User	getUserByIndex(int index) {
+		if (userList.length <= index) {
+			/// thrown exception ///
+			return (null);
+>>>>>>> b17417adff897e62105aaf9d18afa809d7465868
 		}
 		return (userList[index]);
 	}

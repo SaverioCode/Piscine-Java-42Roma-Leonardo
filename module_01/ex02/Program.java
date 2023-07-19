@@ -8,7 +8,11 @@ class	Program {
 		int		i;
 
 		// userList = new UserList();
+<<<<<<< HEAD
 		userList = UsersArrayList.getInstance();
+=======
+		userList = new UsersArrayList();
+>>>>>>> b17417adff897e62105aaf9d18afa809d7465868
 		name = "user";
 		i = 0;
 		System.out.printf("Number of user: %d\n", UserList.getNumberOfUsers());
