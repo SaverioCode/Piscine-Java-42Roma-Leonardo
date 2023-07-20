@@ -1,7 +1,7 @@
 
 public interface	UserList {
-	static void	addUser(User user);
-	static User	getUserByID(int id);
-	static User	getUserByIndex(int index);
-	static int	getNumberOfUsers();
+	public abstract void	addUser(User user);
+	public abstract User	getUserByID(int id);
+	public abstract User	getUserByIndex(int index);
+	public abstract int		getNumberOfUsers();
 }

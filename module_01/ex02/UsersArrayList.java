@@ -1,12 +1,14 @@
 
 public class	UsersArrayList implements UserList {
 	private static UsersArrayList	instance;
-	static User[]					userList;
+	private static User[]			userList;
+	private static int				numUsers;
 
 	static public	UsersArrayList	getInstance() {
 		if (instance == null) {
 			instance = new UsersArrayList();
 			userList = new User[10];
+			numUsers = 0;
 		}
 		return (instance);
 	}
@@ -24,23 +26,16 @@ public class	UsersArrayList implements UserList {
 		return (newUserList);
 	}
 
+	@Override
 	public void addUser(User user) {
-		int	i;
-		int	len;
-
-		len = this.userList.length;
-		i = 0;
-		while ( i < len) {
-			if (userList[i] == null) {
-				userList[i] = user;
-				return ;
-			}
-			i++;
+		if (numUsers == userList.length) {
+			userList = increaseUserList(userList, userList.length);
 		}
-		userList = increaseUserList(userList, len);
-		userList[i] = user;
+		userList[numUsers] = user;
+		numUsers++;
 	}
 
+	@Override
 	public User getUserByID(int id) {
 		int	i;
 
@@ -49,38 +44,21 @@ public class	UsersArrayList implements UserList {
 			if (userList[i].getID() == id) {
 				return (userList[i]);
 			}
+			i++;
 		}
-<<<<<<< HEAD
-		throw new UserNotFoundExeption("User not found\n");
+		throw new UserNotFoundException("User not found\n");
 	}
 
+	@Override
 	public User	getUserByIndex(int index) {
 		if (index < 0 || userList.length <= index) {
-			throw new UserNotFoundExeption("User not found\n");
-=======
-		/// thrown exception ///
-		return (null);
-	}
-
-	public User	getUserByIndex(int index) {
-		if (userList.length <= index) {
-			/// thrown exception ///
-			return (null);
->>>>>>> b17417adff897e62105aaf9d18afa809d7465868
+			throw new UserNotFoundException("User not found\n");
 		}
 		return (userList[index]);
 	}
 
+	@Override
 	public int	getNumberOfUsers() {
-		int	i;
-
-		i = 0;
-		while (i < userList.length) {
-			if (userList[i] == null) {
-				return (i);
-			}
-			i++;
-		}
-		return (i);
+		return (numUsers);
 	}
 }
