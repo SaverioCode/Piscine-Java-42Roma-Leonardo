@@ -24,11 +24,19 @@ public class	User {
 		return (this.balance);
 	}
 
+	public TransactionsList getList() {
+		return (this.transactions);
+	}
+
 	public void	setName(String name) {
 		this.name = name;
 	}
 
 	public void	setBalance(int balance) {
 		this.balance = balance;
+	}
+
+	public void	setList(TransactionsList head) {
+		this.transactions = head;
 	}
 }

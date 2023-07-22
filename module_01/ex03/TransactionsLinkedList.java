@@ -1,22 +1,25 @@
 
-public class	TransactionsLinkedList implements TransactionsList {
-	private Transaction head;
-	private Transaction	node;
-	private int			listLen;
+import java.util.UUID;
 
-	public TransactionsLinkedList(Transaction transaction) {
+public class	TransactionsLinkedList implements TransactionsList {
+	private TransactionsLinkedList	instance;
+	private Transaction 			head;
+	private Transaction				node;
+	private int						listLen;
+
+	public TransactionsLinkedList() {
 		if (this.head == null) {
-			this.head = transaction;
-			this.node = transaction;
-			transaction.setList(this.head);
-			this.listLen = 1;
+			this.head = null;
+			this.node = null;
+			this.listLen = 0;
 		}
 	}
 
 	@Override
 	public void	addTransaction(Transaction transaction) {
-		if (this.node == null) {
-			TransactionsLinkedList(transaction);
+		if (this.head == null) {
+			this.head = transaction;
+			this.node = transaction;
 			return ;
 		}
 		this.node.setNext(transaction);
@@ -28,8 +31,8 @@ public class	TransactionsLinkedList implements TransactionsList {
 	@Override
 	public void	removeTransaction(UUID id) {
 		Transaction	tmp = this.head;
-		while (tmp) {
-			if (tmp.id == id) {
+		while (tmp != null) {
+			if (tmp.getID() == id) {
 				if (tmp == this.head) {
 					this.head = this.head.getNext();
 					this.head.setPrev(null);
@@ -50,13 +53,13 @@ public class	TransactionsLinkedList implements TransactionsList {
 
 	@Override
 	public Transaction[]	toArray() {
-		Transaction[]	arr = new Transaction[listLen];
+		Transaction[]	arr = new Transaction[this.listLen];
 		Transaction		tmp;
 		int				i;
 
 		tmp = head;
 		i = 0;
-		while (tmp) {
+		while (tmp != null) {
 			arr[i] = tmp;
 			tmp = tmp.getNext();
 			i++;
