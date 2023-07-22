@@ -20,7 +20,7 @@ public class	TransactionsLinkedList implements TransactionsList {
 		}
 		this.node.setNext(transaction);
 		transaction.setPrev(this.node);
-		this.node == transaction;
+		this.node = transaction;
 		this.listLen++;
 	}
 
