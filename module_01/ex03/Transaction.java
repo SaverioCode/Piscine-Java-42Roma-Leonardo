@@ -2,13 +2,14 @@
 import	java.util.UUID;
 
 public class Transaction {
-	private UUID		identifier;
-	private User		recipient;
-	private User		sender;
-	private int			transferAmount;
-	private String		transferCategory;
-	private Transaction	prev;
-	private Transaction	next;
+	private UUID			identifier;
+	private User			recipient;
+	private User			sender;
+	private int				transferAmount;
+	private String			transferCategory;
+	private TransactionList	list;
+	private Transaction		prev;
+	private Transaction		next;
 
 	public Transaction(User sender, User recipient, int amount, String category) {
 		this.identifier = UUID.randomUUID();
@@ -46,6 +47,10 @@ public class Transaction {
 		return (this.prev);
 	}
 
+	public TransactionList getList() {
+		return (this.list);
+	}
+
 	public void	setRecipient(User recipient) {
 		this.recipient = recipient;
 	}
@@ -73,5 +78,9 @@ public class Transaction {
 
 	public void	setPrev(Transaction transaction) {
 		this.prev = transaction;
+	}
+
+	public TransactionList	setList(TransactionList head) {
+		this.list = head;
 	}
 }

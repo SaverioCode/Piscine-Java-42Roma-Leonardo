@@ -8,6 +8,7 @@ public class	TransactionsLinkedList implements TransactionsList {
 		if (this.head == null) {
 			this.head = transaction;
 			this.node = transaction;
+			transaction.setList(this.head);
 			this.listLen = 1;
 		}
 	}
