@@ -24,7 +24,7 @@ public class	User {
 		return (this.balance);
 	}
 
-	public TransactionsList getList() {
+	public TransactionsList getTransactionsList() {
 		return (this.transactions);
 	}
 
@@ -36,7 +36,7 @@ public class	User {
 		this.balance = balance;
 	}
 
-	public void	setList(TransactionsList head) {
+	public void	setTransactionsList(TransactionsList head) {
 		this.transactions = head;
 	}
 }

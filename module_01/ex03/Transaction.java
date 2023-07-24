@@ -12,10 +12,10 @@ public class Transaction {
 
 	public Transaction(User sender, User recipient, int amount, String category) {
 		this.identifier = UUID.randomUUID();
-		this.recipient = null;
-		this.sender = null;
-		this.transferAmount = 0;
-		this.transferCategory = null;
+		this.recipient = recipient;
+		this.sender = sender;
+		this.transferAmount = amount;
+		this.transferCategory = category;
 	}
 
 	public UUID	getID() {

@@ -1,111 +1,78 @@
 
+import java.util.UUID;
+
 public class Program {
 	public static void main(String[] args) {
-		
-        User andrea = new User("Andrea");
-		andrea.setBalance(200);
-        User clefari = new User("Clefari");
-        User dario = new User("Dario");
-		dario.setBalance(200);
-        User marco = new User("Marco");
-        User luis = new User("Luis");
-		luis.setBalance(200);
-        User africa = new User("Africa");
-        UsersArrayList userList = UsersArrayList.getInstance();
-        TransactionsList transactionList = new TransactionsLinkedList();
+		User user1 = new User("Sav");
+		User user2 = new User("Bru");
+		User user3 = new User("Simo");
+		User user4 = new User("Andrea");
 
+		user1.setBalance(300);
+		user3.setBalance(500);
+		user4.setBalance(150);
 
-        Transaction debts = new Transaction(andrea, luis, 100, "DEBTS");
-        System.out.println("amount    : " + debts.getAmount());
-        System.out.println("category  : " + debts.getCategory());
-        System.out.println("identifier: " + debts.getID());
-        System.out.println("sender    : " + debts.getSender());
-        System.out.println("recipient : " + debts.getRecipient());
-        Transaction credits = new Transaction(luis, africa, 100, "CREDITS");
+		TransactionsList user1TrsList= new TransactionsLinkedList();
+		user1.setTransactionsList(user1TrsList);
+		TransactionsList user2TrsList= new TransactionsLinkedList();
+		user2.setTransactionsList(user2TrsList);
+		TransactionsList user3TrsList= new TransactionsLinkedList();
+		user3.setTransactionsList(user3TrsList);
+		TransactionsList user4TrsList= new TransactionsLinkedList();
+		user4.setTransactionsList(user4TrsList);
 
-        System.out.println("identifier: " + andrea.getID());
-        System.out.println("name      : " + andrea.getName());
-        System.out.println("balance   : " + andrea.getBalance());
-        System.out.println();
-        System.out.println("identifier: " + clefari.getID());
-        System.out.println("name      : " + clefari.getName());
-        System.out.println("balance   : " + clefari.getBalance());
-        System.out.println();
-        System.out.println("identifier: " + dario.getID());
-        System.out.println("name      : " + dario.getName());
-        System.out.println("balance   : " + dario.getBalance());
-        System.out.println();
-        System.out.println("identifier: " + marco.getID());
-        System.out.println("name      : " + marco.getName());
-        System.out.println("balance   : " + marco.getBalance());
-        System.out.println();
-        System.out.println("identifier: " + luis.getID());
-        System.out.println("name      : " + luis.getName());
-        System.out.println("balance   : " + luis.getBalance());
-        System.out.println();
-        System.out.println("identifier: " + africa.getID());
-        System.out.println("name      : " + africa.getName());
-        System.out.println("balance   : " + africa.getBalance());
+		Transaction transaction = new Transaction(user1, user2, 100, "debits");
+		user1TrsList.addTransaction(transaction);
+		transaction = new Transaction(user2, user1, 100, "credits");
+		user2TrsList.addTransaction(transaction);
+		transaction = new Transaction(user2, user3, 50, "debits");
+		user2TrsList.addTransaction(transaction);
+		transaction = new Transaction(user3, user2, 50, "credits");
+		user3TrsList.addTransaction(transaction);
+		transaction = new Transaction(user3, user1, 200, "debits");
+		user3TrsList.addTransaction(transaction);
+		transaction = new Transaction(user1, user3, 200, "credits");
+		user1TrsList.addTransaction(transaction);
 
-        userList.addUser(africa);
-        userList.addUser(andrea);
-        userList.addUser(luis);
-        userList.addUser(marco);
-        userList.addUser(dario);
-        userList.addUser(clefari);
+		System.out.println();
 
-        Transaction debts0 = new Transaction(dario, luis, 100, "DEBTS");
-        Transaction credits0 = new Transaction(andrea, africa, 100, "CREDITS");
-        Transaction debts1 = new Transaction(africa, andrea, 100, "DEBTS");
-        Transaction credits1 = new Transaction(luis, clefari, 100, "CREDITS");
-        Transaction debts2 = new Transaction(dario, marco, 100, "DEBTS");
+		Transaction trsList[];
+		System.out.printf("User: %s\n", user1.getName());
+		trsList = user1.getTransactionsList().toArray();
+		for (int i = 0; i < trsList.length; i++) {
+			System.out.printf("Transaction[%d]:	", i);
+			System.out.printf("%s --> %s, %d, %s, %s\n", trsList[i].getSender().getName(), trsList[i].getRecipient().getName(), trsList[i].getAmount(), trsList[i].getCategory(), trsList[i].getID());
+		}
 
-        transactionList.addTransaction(debts);
-        transactionList.addTransaction(credits);
-        transactionList.addTransaction(debts0);
-        transactionList.addTransaction(credits0);
-        transactionList.addTransaction(debts1);
-        transactionList.addTransaction(credits1);
-        transactionList.addTransaction(debts2);
-        // transactionList.lenList();
+		System.out.println();
 
-        // transactionList.printList();
+		System.out.println("priting transaction moving with next and prev");
+		Transaction trs = trsList[0];
+		System.out.printf("%s --> %s, %d, %s, %s\n", trs.getSender().getName(), trs.getRecipient().getName(), trs.getAmount(), trs.getCategory(), trs.getID());
+		trs = trs.getNext();
+		System.out.printf("%s --> %s, %d, %s, %s\n", trs.getSender().getName(), trs.getRecipient().getName(), trs.getAmount(), trs.getCategory(), trs.getID());
+		trs = trs.getPrev();
+		System.out.printf("%s --> %s, %d, %s, %s\n", trs.getSender().getName(), trs.getRecipient().getName(), trs.getAmount(), trs.getCategory(), trs.getID());
 
-        try {
-            transactionList.removeTransaction(debts.getID());
-            transactionList.removeTransaction(debts2.getID());
-            transactionList.removeTransaction(credits0.getID());
-        } catch (TransactionNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        // System.out.println("\n");
-        // transactionList.printList();
-        // transactionList.lenList();
-        System.out.println("\n");
+		System.out.println();
 
-        // try {
-        //     User found = userList.getUserByID(100);
-        //     if (found != null) {
-        //         System.out.println("User by id: " + found.getName());
-        //     }
-        // } catch (UserNotFoundException e) {
-        //     System.out.println(e.getMessage());
-        // }
+		System.out.println("Removing last transaction");
+		user1.getTransactionsList().removeTransaction(trsList[1].getID());
+		trsList = user1.getTransactionsList().toArray();
+		for (int i = 0; i < trsList.length; i++) {
+			System.out.printf("Transaction[%d]:	", i);
+			System.out.printf("%s --> %s, %d, %s, %s\n", trsList[i].getSender().getName(), trsList[i].getRecipient().getName(), trsList[i].getAmount(), trsList[i].getCategory(), trsList[i].getID());
+		}
 
-        // User found = userList.getUserByIndex(85);
-        User found = userList.getUserByIndex(5);
+		System.out.println();
 
-        if (found != null) {
-            System.out.println("User by index: " + found.getName());
-        } else {
-            System.out.println("User by index : user not found");
-        }
-        System.out.println("Number of users: " + userList.getNumberOfUsers());
+		System.out.println("Removing transaction with wrong ID");
+		try {
+			user1.getTransactionsList().removeTransaction(UUID.randomUUID());
+		} catch (TransactionNotFoundException e) {
+			System.out.println(e);
+		}
 
-        System.out.println("toArray Method:");
-        Transaction[] toAarray = transactionList.toArray();
-        for (Transaction t: toAarray) {
-            System.out.println(t);
-        }
+		System.out.println();
 	}
 }

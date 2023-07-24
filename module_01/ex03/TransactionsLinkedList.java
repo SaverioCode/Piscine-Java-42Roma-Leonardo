@@ -2,7 +2,6 @@
 import java.util.UUID;
 
 public class	TransactionsLinkedList implements TransactionsList {
-	private TransactionsLinkedList	instance;
 	private Transaction 			head;
 	private Transaction				node;
 	private int						listLen;
@@ -20,6 +19,7 @@ public class	TransactionsLinkedList implements TransactionsList {
 		if (this.head == null) {
 			this.head = transaction;
 			this.node = transaction;
+			listLen = 1;
 			return ;
 		}
 		this.node.setNext(transaction);
