@@ -48,10 +48,14 @@ public class Program {
 		}
 
 		trsArr = service.getTransactionsArr(user2);
-		service.removeTransaction(trsArr[1].getID(), user2.getID());
+		service.removeTransaction(trsArr[0].getID(), user2.getID());
+		trsArr = service.getTransactionsArr(user3);
+		service.removeTransaction(trsArr[1].getID(), user3.getID());
 
+		System.out.println();
+
+		System.out.println("Getting unpaired transactions");
 		trsArr = service.checkTransactions();
-
 		for (int i = 0; i < trsArr.length; i++) {
 			System.out.printf("Transaction[%d]:	", i);
 			System.out.printf("%s --> %s, %d, %s, %s\n", trsArr[i].getSender().getName(), trsArr[i].getRecipient().getName(), trsArr[i].getAmount(), trsArr[i].getCategory(), trsArr[i].getID());

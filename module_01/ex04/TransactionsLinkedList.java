@@ -31,8 +31,9 @@ public class	TransactionsLinkedList implements TransactionsList {
 	@Override
 	public void	removeTransaction(UUID id) {
 		Transaction	tmp = this.head;
+
 		while (tmp != null) {
-			if (tmp.getID() == id) {
+			if (tmp.getID().compareTo(id) == 0) {
 				if (tmp == this.head) {
 					this.head = this.head.getNext();
 					this.head.setPrev(null);
@@ -55,36 +56,25 @@ public class	TransactionsLinkedList implements TransactionsList {
 	public Transaction	getTransactionByID(UUID id) {
 		Transaction tmp;
 
-		if (this.head== null) {
-			return (null);
-		}
 		tmp = this.head;
-		while (true) {
-			if (tmp.getID().compareTo(id) != 0) {
+		for (int i = 0; i < this.listLen; i++) {
+			if (tmp.getID().compareTo(id) == 0) {
 				return (tmp);
-			}
-			try {
-				tmp.getNext();
-			} catch (TransactionNotFoundException e) {
-				// System.out.println(e);
-				return (null);
 			}
 			tmp = tmp.getNext();
 		}
+		return (null);
 	}
 
 	@Override
 	public Transaction[]	toArray() {
 		Transaction[]	arr = new Transaction[this.listLen];
 		Transaction		tmp;
-		int				i;
 
-		tmp = head;
-		i = 0;
-		while (tmp != null) {
+		tmp = this.head;
+		for (int i = 0; i < this.listLen; i++) {
 			arr[i] = tmp;
 			tmp = tmp.getNext();
-			i++;
 		}
 		return (arr);
 	}

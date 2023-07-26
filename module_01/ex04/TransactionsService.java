@@ -27,19 +27,9 @@ public class TransactionsService {
 		User	recipient = userList.getUserByID(recipientID);
 
 		Transaction trs = new Transaction(sender, recipient, amount, "debits");
-		try {
-			sender.getTransactionsList();
-		} catch (TransactionNotFoundException e) {
-			sender.setTransactionsList(new TransactionsLinkedList());
-		}
 		sender.getTransactionsList().addTransaction(trs);
 		trsIdentifier = trs.getID();
 		trs = new Transaction(recipient, sender, amount, "credits");
-		try {
-			recipient.getTransactionsList();
-		} catch (TransactionNotFoundException e) {
-			recipient.setTransactionsList(new TransactionsLinkedList());
-		}
 		recipient.getTransactionsList().addTransaction(trs);
 		trs.setID(trsIdentifier);
 	}
@@ -57,15 +47,16 @@ public class TransactionsService {
 		Transaction[]		senderTrsArr;
 		TransactionsList	recipientTrsList;
 		Transaction			trs;
-	
+
 		for (int i = 0; i < userList.getNumberOfUsers(); i++) {
 			senderTrsArr = userList.getUserByIndex(i).getTransactionsList().toArray();
 			for (int j = 0; j < senderTrsArr.length; j++) {
 				recipientTrsList = senderTrsArr[j].getRecipient().getTransactionsList();
 				trs = recipientTrsList.getTransactionByID(senderTrsArr[j].getID());
 				if (trs == null) {
-					// System.out.println("here");
-					unpairedArr.addTransaction(senderTrsArr[j]);
+					Transaction trsCpy = new Transaction(senderTrsArr[j].getSender(), senderTrsArr[j].getRecipient(), senderTrsArr[j].getAmount(), senderTrsArr[j].getCategory());
+					trsCpy.setID(senderTrsArr[j].getID());
+					unpairedArr.addTransaction(trsCpy);
 				}
 			}
 		}

@@ -12,8 +12,8 @@ public class Transaction {
 
 	public Transaction(User sender, User recipient, int amount, String category) {
 		this.identifier = UUID.randomUUID();
-		this.recipient = recipient;
 		this.sender = sender;
+		this.recipient = recipient;
 		this.transferAmount = amount;
 		this.transferCategory = category;
 	}
