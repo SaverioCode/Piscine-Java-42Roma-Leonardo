@@ -30,6 +30,11 @@ public class Program {
 		service.transferMoney(user3.getID(), user2.getID(), 50);
 		service.transferMoney(user3.getID(), user1.getID(), 50);
 
+		System.out.println("Attempting a transaction with unsufficient balance.");
+		service.transferMoney(user1.getID(), user2.getID(), 1000);
+
+		System.out.println();
+
 		Transaction[] trsArr = service.getTransactionsArr(user1);
 		for (int i = 0; i < trsArr.length; i++) {
 			System.out.printf("Transaction[%d]:	", i);

@@ -3,19 +3,30 @@ import	java.util.UUID;
 
 public class Transaction {
 	private UUID				identifier;
-	private User				recipient;
 	private User				sender;
+	private User				recipient;
 	private int					transferAmount;
 	private String				transferCategory;
 	private Transaction			prev;
 	private Transaction			next;
 
 	public Transaction(User sender, User recipient, int amount, String category) {
+		if (category.equals("debits") && sender.getBalance() < amount) {
+			throw	new IllegalTransactionException("Unsifficient balance.\n");
+		}
 		this.identifier = UUID.randomUUID();
 		this.sender = sender;
 		this.recipient = recipient;
 		this.transferAmount = amount;
 		this.transferCategory = category;
+	}
+
+	public Transaction(Transaction transaction) {
+		this.identifier = transaction.getID();
+		this.sender = transaction.getSender();
+		this.recipient = transaction.getRecipient();
+		this.transferAmount = transaction.getAmount();
+		this.transferCategory = transaction.getCategory();
 	}
 
 	public UUID	getID() {

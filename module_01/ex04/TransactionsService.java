@@ -22,11 +22,17 @@ public class TransactionsService {
 	}
 
 	public void transferMoney(int senderID, int recipientID, int amount) {
-		UUID	trsIdentifier;
-		User	sender = userList.getUserByID(senderID);
-		User	recipient = userList.getUserByID(recipientID);
+		Transaction	trs;
+		UUID		trsIdentifier;
+		User		sender = userList.getUserByID(senderID);
+		User		recipient = userList.getUserByID(recipientID);
 
-		Transaction trs = new Transaction(sender, recipient, amount, "debits");
+		try {
+			trs = new Transaction(sender, recipient, amount, "debits");
+		} catch (IllegalTransactionException e) {
+			System.err.print(e);
+			return ;
+		}
 		sender.getTransactionsList().addTransaction(trs);
 		trsIdentifier = trs.getID();
 		trs = new Transaction(recipient, sender, amount, "credits");
@@ -54,8 +60,7 @@ public class TransactionsService {
 				recipientTrsList = senderTrsArr[j].getRecipient().getTransactionsList();
 				trs = recipientTrsList.getTransactionByID(senderTrsArr[j].getID());
 				if (trs == null) {
-					Transaction trsCpy = new Transaction(senderTrsArr[j].getSender(), senderTrsArr[j].getRecipient(), senderTrsArr[j].getAmount(), senderTrsArr[j].getCategory());
-					trsCpy.setID(senderTrsArr[j].getID());
+					Transaction trsCpy = new Transaction(senderTrsArr[j]);
 					unpairedArr.addTransaction(trsCpy);
 				}
 			}
