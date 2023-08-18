@@ -39,7 +39,7 @@ public class	Database {
 		InputStream	file;
 		int			data;
 		String		key;
-		String[]	value = new String[4];
+		String[]	value;
 	
 		file = null;
 		try {
@@ -52,6 +52,7 @@ public class	Database {
 		while (data != -1) {
 			key = getKey(file, data);
 			data = file.read();
+			value = new String[4];
 			for (byte i = 0; i < 4; i++) {
 				value[i] = getValue(file, data);
 			}

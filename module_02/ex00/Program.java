@@ -5,9 +5,16 @@ import java.util.Map.Entry;
 
 public class Program {
 
-	private static void	printResults(List<String> results) {
+	private static void	printResults(List<String> results) throws FileNotFoundException {
+		OutputStream	resultFile = new FileOutputStream("result.txt");
+	
 		for (String str: results) {
-			System.out.println(str);
+			try {
+				resultFile.write(str.getBytes());
+			} catch (IOException e) {
+				System.err.println(e);
+				continue ;
+			}
 		}
 	}
 
@@ -23,7 +30,7 @@ public class Program {
 		}
 		for (int i = 0; i < 4; i++) {
 			try {
-				data[i] = Integer.toHexString(file.read());
+				data[i] = Integer.toHexString(file.read()).toUpperCase();
 			} catch (IOException e) {
 				System.err.println(e);
 				break ;
@@ -37,26 +44,12 @@ public class Program {
 		return (data);
 	}
 
-	/// TESTING ///
-	private static void	printData(String[] data) {
-		System.out.println("PRINT DATA 1");
-		for (String str: data) {
-			System.out.println(str);
-		}
-		System.out.println("END PRINT DATA\n");
-	}
-
 	private static byte	check(List<String> results, String[] values, String[] data) {
-		System.out.println("\nCHECK");
 		for (int i = 0; i < 4; i++) {
-			System.out.printf("value: |%s|, data: |%s|\n", values[i], data[i] );////////////////
 			if (values[i].equals(data[i]) == false) {
-				System.out.println("FAILED\n");
-				// System.out.println(fileName + "FAILED");/////////////
 				return (1);
 			}
 		}
-		System.out.println("SUCCESS\n");
 		return (0);
 	}
 
@@ -68,27 +61,14 @@ public class Program {
 		for (String fileName: fileList) {
 			data = readSignature(fileName);
 			if (data == null) {
-				System.out.println("DATA IS NULL");///////////
 				continue ;
 			}
-			printData(data);
-			// if (database.containsValue(data) == true) {
-				System.out.println("FUCKING HERE");///////////////
-				for (Entry<String, String[]> entry: database.entrySet()) {
-					String[] values = entry.getValue();
-					// String[] values = entry.getValue();
-					// for (int i = 0; i < 4; i++) {
-					// 	System.out.println(values[i]);////////////////
-					// 	if (values[i].equals(data[i]) == false) {
-					// 		System.out.println(fileName + "FAILED");/////////////
-					// 		continue;
-					// 	}
-					// }
-					if (check(results, values, data) == 0) {
-						results.add(fileName + "\n" + entry);
-					}
+			for (Entry<String, String[]> entry: database.entrySet()) {
+				String[] values = entry.getValue();
+				if (check(results, values, data) == 0) {
+					results.add(fileName + ": " + entry.getKey() + "\n");
 				}
-			// }
+			}
 		}
 		return (results);
 	}
@@ -108,15 +88,6 @@ public class Program {
 		}
 	}
 
-	/// TESTING ///
-	private static void	printFileNames(List<String> fileList) {
-		System.out.println("\nPRINT FILE NAMES");
-		for (String fileName: fileList) {
-			System.out.println(fileName);
-		}
-		System.out.println();
-	}
-
 	public static void main(String[] args) {
 		Map<String, String[]>	database;
 		List<String>			fileName;
@@ -131,8 +102,11 @@ public class Program {
 		}
 		fileName = new ArrayList<String>();
 		getFilesName(fileName);
-		printFileNames(fileName);//////TESTING///////
 		results = matchSignature(database, fileName);
-		printResults(results);
+		try {
+			printResults(results);
+		} catch (FileNotFoundException e) {
+			System.err.println(e);
+		}
 	}
 }
