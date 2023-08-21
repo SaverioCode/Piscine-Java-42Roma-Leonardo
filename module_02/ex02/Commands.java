@@ -1,18 +1,15 @@
 
-import	java.nio.file.Files;
-import	java.nio.file.Paths;
-import	java.nio.file.Path;
-// import	java.util.stream;
+import	java.io.File;
 
 public class	Commands {
 	private	static Commands	instance;
-	private static Path		directory;
+	private static File		directory;
 
-	private Commands(Path path) {
+	private Commands(File path) {
 		this.directory = path;
 	}
-
-	public static Commands getInstance(Path path) {
+	
+	public static Commands getInstance(File path) {
 		if (instance == null) {
 			instance = new Commands(path);
 		}
@@ -24,10 +21,10 @@ public class	Commands {
 			return ;
 		}
 		if (input.length == 1) {
-			// if (input[0].equals("ls") == true) {
-			// 	executeLs();
-			// 	return ;
-			// }
+			if (input[0].equals("ls") == true) {
+				executeLs();
+				return ;
+			}
 			if (input[0].equals("exit") == true) {
 				executeExit();
 			}
@@ -43,17 +40,14 @@ public class	Commands {
 		System.err.println("Error: command not found.");
 	}
 
-	// private void	executeLs() {
-	// 	Stream<Path>	list;
-	// 	String			str;
+	private void	executeLs() {
+		String[]		list;
 
-	// 	list = Files.list(this.directory);
-	// 	for (Path result: list) {
-	// 		str = result.toString();
-	// 		System.out.println(str);
-	// 	}
-	// 	System.out.println();
-	// }
+		list = this.directory.list(null);
+		for (String str: list) {
+			System.out.println(str);
+		}
+	}
 
 	private static void	executeExit() {
 		System.exit(0);
@@ -64,14 +58,14 @@ public class	Commands {
 	// }
 
 	public void	executeCd(String pathStr) {
-		Path	path;
+		File	path;
 
-		path = Paths.get(pathStr);
-		if (Files.isDirectory(path) == false) {
+		path = new File(pathStr);
+		if (path.isDirectory() == false) {
 			System.err.println("Error: path not found.");
 			return ;
 		}
-		// Files.setWorkingDirectory(path);
+		System.setProperty("user.dir", pathStr);
 		this.directory = path;
 	}
 }

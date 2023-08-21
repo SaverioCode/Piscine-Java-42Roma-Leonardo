@@ -1,8 +1,9 @@
 
 import	java.util.Scanner;
-import	java.nio.file.Files;
-import	java.nio.file.Paths;
-import	java.nio.file.Path;
+import	java.io.File;
+// import	java.nio.file.Files;
+// import	java.nio.file.Paths;
+// import	java.nio.file.Path;
 
 public class	Program {
 
@@ -55,16 +56,16 @@ public class	Program {
 
 	private static Commands	checkInput(String[] args) {
 		Commands	shell;
-		Path		path;
+		File		path;
 
 		if (args.length != 1) {
 			System.err.println("Error: starting path is mandatory.");
 			System.exit(1);
 		}
-		path = Paths.get(args[0]);
-		if (Files.isDirectory(path) == false) {
+		path = new File(args[0]);
+		if (path.isDirectory() == false) {
 			System.err.println("Error: invalid path.");
-			System.exit(1);
+			System.exit(1);			
 		}
 		shell = Commands.getInstance(path);
 		shell.executeCd(args[0]);
@@ -77,8 +78,11 @@ public class	Program {
 		String		input;
 		String[]	inputArr;
 
+		/// check input need to be modified, the path argument
+		/// has to be like the fucking stupid example
 		shell = checkInput(args);
 		while (true) {
+			System.out.print(">> ");
 			input = getInput.nextLine();
 			if (input == null) {
 				continue ;
