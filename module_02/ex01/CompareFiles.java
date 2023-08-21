@@ -1,5 +1,4 @@
 
-
 import	java.lang.Math;
 import	java.io.FileReader;
 import	java.io.FileWriter;
@@ -28,11 +27,18 @@ public class	CompareFiles {
 		this.similarity = compareVectors();
 	}
 
+	public static CompareFiles	getInstance(String[] files) {
+		if (instance == null) {
+			instance = new CompareFiles(files);
+		}
+		return (instance);
+	}
+	
 	private double	compareVectors() {
 		double	numerator, denominator;
 		double	a, b, sommatoryA, sommatoryB;
 
-		numerator = denominator = sommatoryA = sommatoryB= 0;
+		numerator = denominator = sommatoryA = sommatoryB = 0;
 		for (int i = 0; i < dictionary.size(); i++) {
 			a = this.vector1[i];
 			b = this.vector2[i];
@@ -42,13 +48,6 @@ public class	CompareFiles {
 		}
 		denominator = Math.sqrt(sommatoryA) * Math.sqrt(sommatoryB);
 		return (numerator / denominator);
-	}
-
-	public static CompareFiles	getInstance(String[] files) {
-		if (instance == null) {
-			instance = new CompareFiles(files);
-		}
-		return (instance);
 	}
 
 	public void		printDictionary() throws IOException{
