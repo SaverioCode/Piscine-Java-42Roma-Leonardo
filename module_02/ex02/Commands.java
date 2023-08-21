@@ -1,5 +1,8 @@
 
 import	java.io.File;
+import	java.nio.file.Files;
+import	java.nio.file.Path;
+import	java.nio.file.Paths;
 
 public class	Commands {
 	private	static Commands	instance;
@@ -20,32 +23,52 @@ public class	Commands {
 		if (input == null) {
 			return ;
 		}
-		if (input.length == 1) {
-			if (input[0].equals("ls") == true) {
-				executeLs();
+		if (input[0].equals("ls") == true) {
+			if (input.length != 1) {
+				System.err.println("Error: \"ls\" has to be without arguments.");
 				return ;
 			}
-			if (input[0].equals("exit") == true) {
-				executeExit();
+			executeLs();
+		}
+		else if (input[0].equals("exit") == true) {
+			if (input.length != 1) {
+				System.err.println("Error: \"exit\" has to be without arguments.");
+				return ;
 			}
+			executeExit();
 		}
-		else if (input[0].equals("cd") == true && input.length == 2) {
+		else if (input[0].equals("cd") == true) {
+			if (input.length != 2) {
+				System.err.println("Error: cd <FOLDER_NAME>.");
+				return ;
+			}
 			executeCd(input[1]);
-			return ;
 		}
-		// else if (input[0].equals("mv") == true && input.length == 3) {
-		// 	executeMv();
-		// 	return ;
-		// }
-		System.err.println("Error: command not found.");
+		else if (input[0].equals("mv") == true) {
+			if (input.length != 3) {
+				System.err.println("Error: mv <WHAT> <WHERE>.");
+				return ;
+			}
+			executeMv(input);
+		}
+		else {
+			System.err.println("Error: command not found.");
+		}
 	}
 
 	private void	executeLs() {
-		String[]		list;
+		String[]	list;
+		File		file;
+		long		size;
 
 		list = this.directory.list(null);
 		for (String str: list) {
-			System.out.println(str);
+			file = new File(str);
+			if (file.isHidden() == true) {
+				continue ;
+			}
+			size = file.length() / 1024;
+			System.out.println(str + " " + size + " KB");
 		}
 	}
 
@@ -53,19 +76,45 @@ public class	Commands {
 		System.exit(0);
 	}
 
-	// public static void	executeMv(String[] input) {
+	private static void	executeMv(String[] input) {
+		Path	whatPath, wherePath;
+		File	whatFile, whereFile;
 
-	// }
+		
+		whatFile = new File(input[1]);
+		if (where.isAbsolute() == false && where.isFile() == false) {
+			if (where.getAbsolutePath() == null) {
+				System.err.println("Error: invalid file name.")
+			}
+		}
+		
+		where = new File(input[2]);
+		if (where.isAbsolute() == true) {
+
+			Files.move()
+		}
+		// if (where.exists() == true) {
+			System.out.println(where.getAbsolutePath());
+		// }
+	}
 
 	public void	executeCd(String pathStr) {
 		File	path;
+		Path	absolutePath;
 
 		path = new File(pathStr);
-		if (path.isDirectory() == false) {
+		if (path.isDirectory() == true) {
+			
+		}
+		else if ((absolutePath = Paths.get(this.directory.toString(), pathStr)) != null) {
+			pathStr = absolutePath.toString();
+			path = new File(pathStr);
+		}
+		else {
 			System.err.println("Error: path not found.");
 			return ;
 		}
+		this.directory = new File(pathStr);
 		System.setProperty("user.dir", pathStr);
-		this.directory = path;
 	}
 }
