@@ -3,23 +3,24 @@ import	java.io.File;
 import	java.nio.file.Files;
 import	java.nio.file.Path;
 import	java.nio.file.Paths;
+import	java.io.IOException;
 
-public class	Commands {
+public class	Commands extends IOException {
 	private	static Commands	instance;
 	private static File		directory;
 
-	private Commands(File path) {
-		this.directory = path;
+	private Commands(String path) {
+		executeCd(path);
 	}
 	
-	public static Commands getInstance(File path) {
+	public static Commands getInstance(String path) {
 		if (instance == null) {
 			instance = new Commands(path);
 		}
 		return (instance);
 	}
 
-	public void	execute(String[] input) {
+	public void	execute(String[] input) throws IOException {
 		if (input == null) {
 			return ;
 		}
@@ -76,41 +77,36 @@ public class	Commands {
 		System.exit(0);
 	}
 
-	private static void	executeMv(String[] input) {
+	private static void	executeMv(String[] input) throws IOException {
 		Path	whatPath, wherePath;
 		File	whatFile, whereFile;
+		String	whatPathStr, wherePathStr;
 
 		
 		whatFile = new File(input[1]);
-		if (where.isAbsolute() == false && where.isFile() == false) {
-			if (where.getAbsolutePath() == null) {
-				System.err.println("Error: invalid file name.")
-			}
+		if ((whatPathStr = whatFile.getAbsolutePath()) == null) {
+			System.err.printf("Error: %s is not a valid file.\n", input[1]);
+			return ;
 		}
-		
-		where = new File(input[2]);
-		if (where.isAbsolute() == true) {
-
-			Files.move()
+		whatPath = Paths.get(input[1]);
+		whereFile = new File(input[2]);
+		if ((wherePathStr = whereFile.getAbsolutePath()) != null) {
+			wherePath = Paths.get(wherePathStr);
 		}
-		// if (where.exists() == true) {
-			System.out.println(where.getAbsolutePath());
-		// }
+		else {
+			wherePath = Paths.get(input[2]);
+		}
+		Files.move(whatPath, wherePath);
 	}
 
 	public void	executeCd(String pathStr) {
 		File	path;
-		Path	absolutePath;
 
+		if (this.directory != null && pathStr.charAt(0) != '/') {
+			pathStr = this.directory.toString() + "/" + pathStr;
+		}
 		path = new File(pathStr);
-		if (path.isDirectory() == true) {
-			
-		}
-		else if ((absolutePath = Paths.get(this.directory.toString(), pathStr)) != null) {
-			pathStr = absolutePath.toString();
-			path = new File(pathStr);
-		}
-		else {
+		if (path.isDirectory() == false) {
 			System.err.println("Error: path not found.");
 			return ;
 		}

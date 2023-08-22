@@ -1,9 +1,7 @@
 
 import	java.util.Scanner;
 import	java.io.File;
-// import	java.nio.file.Files;
-// import	java.nio.file.Paths;
-// import	java.nio.file.Path;
+import	java.io.IOException;
 
 public class	Program {
 
@@ -55,6 +53,7 @@ public class	Program {
 	}
 
 	private static Commands	checkInput(String[] args) {
+		String[]	input;
 		Commands	shell;
 		File		path;
 
@@ -62,13 +61,17 @@ public class	Program {
 			System.err.println("Error: starting path is mandatory.");
 			System.exit(1);
 		}
-		path = new File(args[0]);
+		input = args[0].split("=", 2);
+		if (input[0].equals("--current-folder") == false) {
+			System.err.println("Error: program input has to be \"--current-folder=<FOLDER_NAME>\".");
+			System.exit(1);
+		}
+		path = new File(input[1]);
 		if (path.isDirectory() == false) {
 			System.err.println("Error: invalid path.");
 			System.exit(1);			
 		}
-		shell = Commands.getInstance(path);
-		shell.executeCd(args[0]);
+		shell = Commands.getInstance(input[1]);
 		return (shell);
 	}
 
@@ -78,8 +81,6 @@ public class	Program {
 		String		input;
 		String[]	inputArr;
 
-		/// check input need to be modified, the path argument
-		/// has to be like the fucking stupid example
 		shell = checkInput(args);
 		while (true) {
 			System.out.print(">> ");
@@ -88,7 +89,11 @@ public class	Program {
 				continue ;
 			}
 			inputArr = tokenizeInput(input);
-			shell.execute(inputArr);
+			try {
+				shell.execute(inputArr);
+			} catch (IOException e) {
+				System.err.println(e);
+			}
 		}
 	}
 }
