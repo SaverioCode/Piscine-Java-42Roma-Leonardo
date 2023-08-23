@@ -37,7 +37,19 @@ public class	Program {
 		henThread = new Thread(hen);
 		eggThread.start();
 		henThread.start();
-		/// display all the results at the end
-
+		try {
+			eggThread.join();
+		} catch (InterruptedException e) {
+			System.err.println(e);
+		}
+		try {
+			henThread.join();
+		} catch (InterruptedException e) {
+			System.err.println(e);
+		}
+		
+		for (int i = 0; i < count; i++) {
+			System.out.println("Human");
+		}
 	}
 }
