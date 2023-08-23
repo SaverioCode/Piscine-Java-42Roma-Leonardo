@@ -19,7 +19,7 @@ public class	Program {
 		return (Integer.parseInt(input[1]));
 	}
 
-	public static void	main(String[] args) {
+	public static void	main(String[] args) throws InterruptedException {
 		Threads	egg, hen;
 		Thread eggThread, henThread;
 		int		count;
@@ -37,16 +37,8 @@ public class	Program {
 		henThread = new Thread(hen);
 		eggThread.start();
 		henThread.start();
-		try {
-			eggThread.join();
-		} catch (InterruptedException e) {
-			System.err.println(e);
-		}
-		try {
-			henThread.join();
-		} catch (InterruptedException e) {
-			System.err.println(e);
-		}
+		eggThread.join();
+		henThread.join();
 		
 		for (int i = 0; i < count; i++) {
 			System.out.println("Human");
