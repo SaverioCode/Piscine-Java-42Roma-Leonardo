@@ -20,7 +20,9 @@ public class	Program {
 	}
 
 	public static void	main(String[] args) {
-		int	count;
+		Threads	egg, hen;
+		Thread eggThread, henThread;
+		int		count;
 		
 		count = 0;
 		try {
@@ -29,7 +31,12 @@ public class	Program {
 			exitError("Error: input has to be \"--count=<INTEGER>\".");
 		}
 
-		/// create 2 threads
+		egg = new Threads("Egg", count);
+		eggThread = new Thread(egg);
+		hen = new Threads("Hen", count);
+		henThread = new Thread(hen);
+		eggThread.start();
+		henThread.start();
 		/// display all the results at the end
 
 	}
