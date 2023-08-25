@@ -19,8 +19,8 @@ public class	Program {
 	}
 
 	public static void	main(String[] args) {
-		Threads	egg, hen;
 		Thread	eggThread, henThread;
+		Threads	egg, hen;
 		int		count;
 		
 		count = 0;
@@ -30,9 +30,9 @@ public class	Program {
 			exitError("Error: input has to be \"--count=<INTEGER>\".");
 		}
 
-		egg = new Threads("Egg", count);
+		egg = new Threads("Egg", count, true);
 		eggThread = new Thread(egg);
-		hen = new Threads("Hen", count);
+		hen = new Threads("Hen", count, false);
 		henThread = new Thread(hen);
 		eggThread.start();
 		henThread.start();
