@@ -12,7 +12,7 @@ public class	Program {
 		String[]	input;
 
 		if (args.length != 2) {
-			exitError("Error: the program input \"--arraySize=<INTEGER> --threadsCount=<INTEGER>\".");
+			exitError("Error: program input \"--arraySize=<INTEGER> --threadsCount=<INTEGER>\".");
 		}
 		input = args[0].split("=", 2);
 		if (input.length != 2 || input[0].equals("--arraySize") == false) {
@@ -31,7 +31,7 @@ public class	Program {
 		try {
 			checkInput(args);
 		} catch (NumberFormatException e) {
-			exitError(e);
+			exitError("Error: program input \"--arraySize=<INTEGER> --threadsCount=<INTEGER>\".");
 		}
 	}
 }
