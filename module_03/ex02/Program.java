@@ -1,9 +1,10 @@
 
+import	java.util.Random;
+import	java.util.stream.IntStream;
+
 public class	Program {
 	private	static int	arraySize;
-	private static int	maxSize = 2000000;
 	private static int	threadsCount;
-	private static int	maxCount = 1000;
 
 	private static void	exitError(String str) {
 		System.err.println(str);
@@ -12,6 +13,7 @@ public class	Program {
 
 	private static void	checkInput(String[] args) {
 		String[]	input;
+		int			maxSize = 2000000;
 
 		if (args.length != 2) {
 			exitError("Error: program input \"--arraySize=<INTEGER> --threadsCount=<INTEGER>\".");
@@ -21,28 +23,47 @@ public class	Program {
 			exitError("Error: input has to be \"--arraySize=<INTEGER>\".");
 		}
 		arraySize = Integer.parseInt(input[1]);
-		if (arraySize > maxSize) {
-			exitError("Error: max array size is \"2.000.000\".");
+		if (arraySize > maxSize || arraySize < 1) {
+			exitError("Error: 0 < ARRAY_SIZE < 2.000.000 .");
 		}
 		input = args[1].split("=", 2);
 		if (input.length != 2 || input[0].equals("--threadsCount") == false) {
 			exitError("Error: input has to be \"--threadsCount=<INTEGER>\".");
 		}
 		threadsCount = Integer.parseInt(input[1]);
-		if (threadsCount > maxCount) {
-			exitError("Error: max threads count is \"1.000\".");
-		}
-		else if (threadsCount > arraySize) {
-			exitError("Error: threads count has to be less or equal to array size.");
+		if (threadsCount > arraySize || threadsCount < 1 ) {
+			exitError("Error: 0 < THREADS_COUNT < ARRAY_SIZE .");
 		}
 	}
 
+	private static int[]	generateNumArr() {
+		Random		generator = new Random();
+		IntStream	intStream;
+
+		intStream = generator.ints(arraySize, -1000, 1001);
+		return (intStream.toArray());
+	}
+
+	private static void	sumIntArr(int[] arr) {
+		long	sum = 0;
+	
+		for (int i = 0; i < arr.length; i++) {
+			sum += arr[i];
+		}
+		System.out.println("Sum: " + sum);
+	}
+
 	public static void	main(String[] args) {
-		
+		int[]		numArr;
+		Thread[]	threadsArr;
+
 		try {
 			checkInput(args);
 		} catch (NumberFormatException e) {
 			exitError("Error: program input \"--arraySize=<INTEGER> --threadsCount=<INTEGER>\".");
 		}
+		numArr = generateNumArr();
+		sumIntArr(numArr);
+
 	}
 }
