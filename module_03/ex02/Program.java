@@ -53,9 +53,18 @@ public class	Program {
 		System.out.println("Sum: " + sum);
 	}
 
+	/// TESTING ///
+	private static void	printIntArr(int[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.printf("|%d|", arr[i]);
+		}
+		System.out.println();
+	}
+	
 	public static void	main(String[] args) {
 		int[]		numArr;
-		Thread[]	threadsArr;
+		Counter[]	counters;
+		Thread[]	threads;
 
 		try {
 			checkInput(args);
@@ -64,6 +73,19 @@ public class	Program {
 		}
 		numArr = generateNumArr();
 		sumIntArr(numArr);
+		Counter.setArr(numArr);
+		counters = new Counter[threadsCount];
+		threads = new Thread[threadsCount];
+		for (int i = 0; i < threadsCount; i++) {
+			counters[i] = new Counter();
+			threads[i] = new Thread();
+			threads.start();
+		}
+		System.out.println("Sum by threads: " + Counter.getSum());
 
-	}
+		// Counter test = new Counter(1, 3);
+		// int[] testArr = test.getArr();///////////////
+		// printIntArr(numArr);/////////////////////
+		// printIntArr(testArr);///////////////////
+		}
 }
