@@ -3,7 +3,7 @@ import	java.util.Random;
 import	java.util.stream.IntStream;
 
 public class	Program {
-	private	static int	arraySize;
+	private static int	arraySize;
 	private static int	threadsCount;
 
 	private static void	exitError(String str) {
@@ -44,7 +44,7 @@ public class	Program {
 		return (intStream.toArray());
 	}
 
-	private static void	sumIntArr(int[] arr) {
+	private static void	sumArr(int[] arr) {
 		long	sum = 0;
 	
 		for (int i = 0; i < arr.length; i++) {
@@ -52,17 +52,21 @@ public class	Program {
 		}
 		System.out.println("Sum: " + sum);
 	}
-
-	/// TESTING ///
-	private static void	printIntArr(int[] arr) {
-		for (int i = 0; i < arr.length; i++) {
-			System.out.printf("|%d|", arr[i]);
-		}
-		System.out.println();
-	}
 	
+	private static void	waitThreads(Thread[] threads) {
+		for (int i = 0; i < threadsCount; i++) {
+			try {
+				threads[i].join();
+			} catch (InterruptedException e) {
+				System.err.println(e);
+			}
+		}
+	}
+
 	public static void	main(String[] args) {
-		int[]		numArr;
+		int[]		arr;
+		int			range;
+		int			start, end;
 		Counter[]	counters;
 		Thread[]	threads;
 
@@ -71,21 +75,28 @@ public class	Program {
 		} catch (NumberFormatException e) {
 			exitError("Error: program input \"--arraySize=<INTEGER> --threadsCount=<INTEGER>\".");
 		}
-		numArr = generateNumArr();
-		sumIntArr(numArr);
-		Counter.setArr(numArr);
+		arr = generateNumArr();
+		sumArr(arr);
+		Counter.setArr(arr);
+		Counter.setLock(new Object());
 		counters = new Counter[threadsCount];
 		threads = new Thread[threadsCount];
+		range = Math.round(arraySize / threadsCount);
+		start = 0;
+		end = start + range - 1;
 		for (int i = 0; i < threadsCount; i++) {
-			counters[i] = new Counter();
-			threads[i] = new Thread();
-			threads.start();
+			counters[i] = new Counter(i, start, end);
+			threads[i] = new Thread(counters[i]);
+			threads[i].start();
+			start = end + 1;
+			if (i < threadsCount - 2) {
+				end = start + range - 1;
+			}
+			else {
+				end = arraySize - 1; 
+			}
 		}
+		waitThreads(threads);
 		System.out.println("Sum by threads: " + Counter.getSum());
-
-		// Counter test = new Counter(1, 3);
-		// int[] testArr = test.getArr();///////////////
-		// printIntArr(numArr);/////////////////////
-		// printIntArr(testArr);///////////////////
-		}
+	}
 }

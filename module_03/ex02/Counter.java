@@ -1,39 +1,55 @@
 
 public class	Counter implements Runnable {
-	private	static int[]	intArr;
-	private static long		sum;
-	private int				arrStart;
-	private int				arrEnd;
+	private static int[]	arr;
+	private int				localIndex;
+	private int				arrStart, arrEnd;
+	private static long		globalSum;
+	private	long			localSum;
+	private static int		globalIndex = 0;
+	private static Object	lock;
 
-	// public	Counter(int[] intArr, int[] range) {
-	// 	this.arrStart = range[0];
-	// 	this.arrEnd = range[1];
-	// }
-
-	public	Counter(int start, int end) {
+	public	Counter(int index, int start, int end) {
+		this.localIndex = index;
 		this.arrStart = start;
 		this.arrEnd = end;
 	}
 
-	@Override
-	public void	run() {
-		System.out.println("FATTI I CAZZI TUOI");
+	public static void	setLock(Object obj) {
+		lock = obj;
 	}
 
-	public static void setArr(int[] arr) {
-		intArr = arr;
-	}
-
-	private static synchronized void	addSumm(int num) {
-		sum += num;
+	public static void	setArr(int[] newArr) {
+		arr = newArr;
 	}
 
 	public static long	getSum() {
-		return (sum);
+		return (globalSum);
 	}
 	
-	// /// TESTING ///
-	// public static int[]	getArr() {
-	// 	return (intArr);
-	// }
+	@Override
+	public void	run() {
+		this.localSum = sum(this.arrStart, this.arrEnd);
+		synchronized (lock) {
+			while (globalIndex != this.localIndex) {
+				try {
+					lock.wait();
+				} catch (InterruptedException e) {
+					System.err.println(e);
+				}
+			}
+			System.out.printf("Thread %d: from %d to %d sum is %d\n", this.localIndex + 1, this.arrStart, this.arrEnd, this.localSum);
+			globalSum += this.localSum;
+			globalIndex++;
+			lock.notifyAll();
+		}
+	}
+	
+	public static long	sum(int start, int end) {
+		long	sum = 0;
+
+		for (int i = start; i <= end; i++) {
+			sum += arr[i];
+		}
+		return (sum);
+	}
 }
