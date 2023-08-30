@@ -1,10 +1,17 @@
 
+import	java.io.IOException;
 import	java.net.URLConnection;
+import	java.net.URL;
 
-public static	Downloader implements Runnable {
+public class	Downloader implements Runnable {
 	private static Object	lock;
 	private static int		globalFileNum = 0;
 	private	int				localFileNum;
+	private	int				index;
+
+	public Downloader(int i) {
+		this.index = i + 1;
+	}
 
 	public static void	setLock(Object objLock) {
 		lock = objLock;
@@ -12,7 +19,7 @@ public static	Downloader implements Runnable {
 
 	@Override
 	public void	run() {
-		URLConnection	urlC;
+		URLConnection	urlConnection;
 		URL				url;
 
 		while (true) {
@@ -24,10 +31,16 @@ public static	Downloader implements Runnable {
 			if (url == null) {
 				return ;
 			}
-			urlC = new URLConnection(url);
-			System.out.printf("%s start download file number %d\n", Thread.getName(), this.localFileNum);
+			try {
+				urlConnection = url.openConnection();
+			} catch (IOException e) {
+				System.out.println(e);
+				continue ;
+			}
+			// urlC = new URLConnection(url);
+			System.out.printf("Thread-%d start download file number %d\n", this.index, this.localFileNum);
 			// download file
-			System.out.printf("%s finish download file number %d\n", Thread.getName(), this.localFileNum);
+			System.out.printf("%s finish download file number %d\n", this.index, this.localFileNum);
 		}
 	}
 

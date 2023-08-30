@@ -1,10 +1,16 @@
 
 import	java.io.InputStream;
 import	java.io.FileInputStream;
+import	java.io.IOException;
+import	java.io.FileNotFoundException;
+import	java.net.MalformedURLException ;
+import	java.util.List;
+import	java.util.ArrayList;
+import	java.net.URL;
 
 public class Database {
 	private static Database	instance;
-	public static List<URL>	urlsList = new ArrayList<URL>;
+	public static List<URL>	urlsList = new ArrayList<URL>();
 
 	public static URL	getURL() {
 		URL	url;
@@ -17,7 +23,7 @@ public class Database {
 		return (url);
 	}
 
-	private static int	skipNonPrintable(InputStream file, byteInt) {
+	private static int	skipNonPrintable(InputStream file, int byteInt) {
 		while (byteInt < 33 || byteInt == 127 ) {
 			try {
 				byteInt = file.read();
@@ -47,12 +53,16 @@ public class Database {
 		return (str);
 	}
 
-	public static void	createDatabase(String fileName) {
+	public static void	createDatabase(String fileName) throws FileNotFoundException {
 		InputStream file = new FileInputStream(fileName);
 		String		str;
-
+		
 		while ((str = getStr(file)) != null) {
-			urlsList.add(new URL(str));
+			try {
+				urlsList.add(new URL(str));
+			} catch (MalformedURLException e) {
+				System.err.println(e);
+			}
 		}
 	}
 }
