@@ -1,7 +1,21 @@
 
+import	java.io.InputStream;
+import	java.io.FileInputStream;
+
 public class Database {
 	private static Database	instance;
 	public static List<URL>	urlsList = new ArrayList<URL>;
+
+	public static URL	getURL() {
+		URL	url;
+		
+		if (urlsList == null) {
+			return (null);
+		}
+		url = urlsList.get(0);
+		urlsList.remove(0);
+		return (url);
+	}
 
 	private static int	skipNonPrintable(InputStream file, byteInt) {
 		while (byteInt < 33 || byteInt == 127 ) {
