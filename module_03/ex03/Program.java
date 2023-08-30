@@ -34,7 +34,7 @@ public class	Program {
 		}
 		Database.createDatabase("files_urls.txt");
 		lock = new Database();
-		Database.setLock(lock);
+		Downloader.setLock(lock);
 		System.out.println("All file downloaded.");
 	}
 }
