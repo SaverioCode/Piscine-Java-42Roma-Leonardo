@@ -9,7 +9,7 @@ public class Database {
 	public static URL	getURL() {
 		URL	url;
 		
-		if (urlsList == null) {
+		if (urlsList.isEmpty() == true) {
 			return (null);
 		}
 		url = urlsList.get(0);
