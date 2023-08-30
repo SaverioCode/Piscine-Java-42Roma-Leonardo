@@ -43,8 +43,4 @@ public class	Downloader implements Runnable {
 			System.out.printf("%s finish download file number %d\n", this.index, this.localFileNum);
 		}
 	}
-
-	private static synchronized URL getURL() {
-		return (Database.getURL());
-	}
 }
