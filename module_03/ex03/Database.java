@@ -24,7 +24,7 @@ public class Database {
 	}
 
 	private static int	skipNonPrintable(InputStream file, int byteInt) {
-		while (byteInt < 33 || byteInt == 127 ) {
+		while (byteInt != -1 && (byteInt < 33 || byteInt == 127)) {
 			try {
 				byteInt = file.read();
 			} catch (IOException e) {
@@ -39,7 +39,7 @@ public class Database {
 		int		byteInt = 0;
 
 		byteInt = skipNonPrintable(file, byteInt);
-		while (byteInt > 32 && byteInt != 127) {
+		while (byteInt != -1 && (byteInt > 32 && byteInt != 127)) {
 			str += (char)byteInt;
 			try {
 				byteInt = file.read();

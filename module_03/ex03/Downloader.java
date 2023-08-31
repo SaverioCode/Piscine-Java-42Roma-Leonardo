@@ -1,5 +1,8 @@
 
+import	java.io.OutputStream;
+import	java.io.FileOutputStream;
 import	java.io.IOException;
+import	java.io.BufferedInputStream;
 import	java.net.URLConnection;
 import	java.net.URL;
 
@@ -19,8 +22,9 @@ public class	Downloader implements Runnable {
 
 	@Override
 	public void	run() {
-		URLConnection	urlConnection;
-		URL				url;
+		BufferedInputStream	urlStream;
+		URLConnection		urlConnection;
+		URL					url;
 
 		while (true) {
 			synchronized (lock) {
@@ -37,10 +41,30 @@ public class	Downloader implements Runnable {
 				System.out.println(e);
 				continue ;
 			}
-			// urlC = new URLConnection(url);
 			System.out.printf("Thread-%d start download file number %d\n", this.index, this.localFileNum);
-			// download file
-			System.out.printf("%s finish download file number %d\n", this.index, this.localFileNum);
+			try {
+				urlStream = new BufferedInputStream(url.openStream());
+				copyOnFile(urlStream, getFileName(url));
+			} catch (IOException e) {
+				System.err.println(e);
+			}
+			System.out.printf("Thread-%d finish download file number %d\n", this.index, this.localFileNum);
 		}
 	}
+
+	private String	getFileName(URL url) {
+		String[]	arr;
+
+		arr = url.getPath().split("/");
+		return (arr[arr.length - 1]);
+	}
+
+	private void	copyOnFile(BufferedInputStream urlStream, String fileName) throws IOException {
+		OutputStream	newFile = new FileOutputStream(fileName);
+		int				intByte;
+
+		while ((intByte = urlStream.read()) != -1) {
+			newFile.write(intByte);
+		}
+	}	
 }

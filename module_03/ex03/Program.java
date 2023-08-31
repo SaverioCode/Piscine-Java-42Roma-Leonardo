@@ -16,8 +16,8 @@ public class	Program {
 			exitError("Error: program input \"--threadsCount=<INTEGER>\".");
 		}
 		input = args[0].split("=", 2);
-		if (input.length != 2 || input[0].equals("--threadsCount=") == false) {
-			exitError("Error: input has to be \"--threadsCount==<INTEGER>\".");
+		if (input.length != 2 || input[0].equals("--threadsCount") == false) {
+			exitError("Error: input has to be \"--threadsCount=<INTEGER>\".");
 		}
 		threadsCount = Integer.parseInt(input[1]);
 		if (threadsCount < 1) {
@@ -59,6 +59,7 @@ public class	Program {
 			threads[i] = new Thread(threadsRunable[i]);
 			threads[i].start();
 		}
+		waitThreads(threads);
 		System.out.println("All file downloaded.");
 	}
 }
