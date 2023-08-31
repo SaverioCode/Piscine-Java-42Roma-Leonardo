@@ -35,10 +35,10 @@ public class	Logic {
 		white = Color.white.getRGB();
 		width = image.getWidth();
 		height = image.getHeight();
-		picture = new int[width][height];
+		picture = new int[height][width];
 	
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
 				pixelColor = image.getRGB(x, y);
 				if (pixelColor == black) {
 					pixel = blackChar;
@@ -50,16 +50,18 @@ public class	Logic {
 					System.err.println("Error: picture has to be black and white only.");
 					System.exit(1);
 				}
-				picture[x][y] = pixel;
+				picture[y][x] = pixel;
 			}
 		}
 	}
 
 	public static void	printPicture() {
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				System.out.print(picture[x][y]);
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				System.out.print((char)picture[y][x]);
 			}
+			System.out.println();
 		}
+		System.out.println();
 	}
 }
